@@ -1,0 +1,617 @@
+COUNTER APP — ARCHITECTURE
+
+1. PROJECT OVERVIEW
+
+---
+
+Project Name:
+Counter App
+
+Project Type:
+Small Vanilla JavaScript Application
+
+Purpose:
+A simple interactive counter that allows users to increase,
+decrease, reset, and customize the counter step value.
+
+The application also supports persistent data and light/dark
+theme preferences using localStorage.
+
+2. TECHNOLOGY STACK
+
+---
+
+HTML5
+Provides semantic structure and user controls.
+
+CSS3
+Provides layout, styling, responsive behavior, themes,
+states, and reusable design tokens.
+
+JavaScript ES6
+Provides counter logic, user interaction, theme switching,
+and localStorage persistence.
+
+Browser localStorage
+Stores counter value, step value, and selected theme.
+
+3. PROJECT STRUCTURE
+
+---
+
+counter-app/
+│
+├── index.html
+├── README.md
+├── LICENSE
+│
+├── css/
+│   └── style.css
+│
+├── js/
+│   └── script.js
+│
+└── architecture/
+└── architecture.txt
+
+4. HTML ARCHITECTURE
+
+---
+
+The HTML contains three main responsibilities:
+
+1. Application header
+2. Counter interface
+3. JavaScript connection
+
+Structure:
+
+BODY
+│
+├── Header
+│   ├── Application title
+│   └── Theme toggle button
+│
+└── Main
+│
+└── Counter section
+├── Counter display
+├── Step label
+├── Step input
+├── Increase button
+├── Decrease button
+└── Reset button
+
+5. CSS ARCHITECTURE
+
+---
+
+CSS should be organized into:
+
+1. Design Tokens
+
+2. Theme Variables
+
+3. Global Reset/Base
+
+4. Layout
+
+5. Header
+
+6. Counter Display
+
+7. Input
+
+8. Buttons
+
+9. Interaction States
+
+10. Responsive Rules
+
+11. DESIGN TOKENS
+
+---
+
+Use CSS custom properties for shared visual values.
+
+Color tokens:
+
+--primary-color
+--accent-color
+--bg-color
+--surface-color
+--text-color
+--text-muted
+--border-color
+--danger-color
+
+Radius tokens:
+
+--radius-sm
+--radius-md
+--radius-lg
+
+Shadow tokens:
+
+--shadow-sm
+--shadow-md
+
+Transition token:
+
+--transition
+
+The purpose of design tokens is to prevent repeated hard-coded
+values and make the visual system easier to maintain.
+
+7. THEME ARCHITECTURE
+
+---
+
+The application supports:
+
+Light Theme
+Dark Theme
+
+JavaScript changes the theme state by adding/removing:
+
+dark
+
+from the body.
+
+CSS controls the actual visual appearance.
+
+Flow:
+
+User clicks Theme Button
+↓
+toggleTheme()
+↓
+body.dark
+↓
+CSS theme variables change
+↓
+Theme preference saved
+↓
+UI updates
+
+8. JAVASCRIPT ARCHITECTURE
+
+---
+
+JavaScript is divided into logical responsibilities.
+
+A. DOM REFERENCES
+
+Store references to:
+
+- Counter display
+- Increase button
+- Decrease button
+- Reset button
+- Step input
+- Theme button
+- Body
+
+B. STATE
+
+Main application state:
+
+count
+step
+theme
+
+C. STORAGE
+
+localStorage keys:
+
+countNum
+Stores current counter value.
+
+locstp
+Stores selected step value.
+
+theme
+Stores light/dark theme preference.
+
+D. COUNTER LOGIC
+
+Increase:
+
+count + step
+
+Decrease:
+
+count - step
+
+Reset:
+
+count = 0
+
+E. RENDER
+
+renderCount()
+
+Responsibilities:
+
+- Update the counter display.
+- Persist the current counter value.
+
+9. DATA FLOW
+
+---
+
+INCREASE
+
+User clicks Increase
+↓
+countUp()
+↓
+Read step
+↓
+Increase count
+↓
+renderCount()
+↓
+Update DOM
+↓
+Save to localStorage
+
+DECREASE
+
+User clicks Decrease
+↓
+countDown()
+↓
+Read step
+↓
+Prevent negative result
+↓
+renderCount()
+↓
+Update DOM
+↓
+Save to localStorage
+
+RESET
+
+User clicks Reset
+↓
+resetCount()
+↓
+count = 0
+↓
+renderCount()
+↓
+Save 0
+↓
+Display 0
+
+STEP INPUT
+
+User changes step
+↓
+Read input
+↓
+Validate value
+↓
+Save valid value
+↓
+Use on next counter operation
+
+THEME
+
+User clicks theme button
+↓
+toggleTheme()
+↓
+Toggle body.dark
+↓
+Save theme
+↓
+Update theme button
+
+10. FUNCTION RESPONSIBILITIES
+
+---
+
+getStep()
+
+Returns a valid step value.
+
+saveCount()
+
+Stores the current counter value.
+
+saveStep()
+
+Stores the current step value.
+
+renderCount()
+
+Updates the visible counter and saves its value.
+
+countUp()
+
+Increases the counter using the selected step.
+
+countDown()
+
+Decreases the counter using the selected step.
+
+resetCount()
+
+Resets the counter to zero.
+
+toggleTheme()
+
+Switches between light and dark mode.
+
+updateThemeButton()
+
+Updates the theme button state and accessible label.
+
+initialize()
+
+Restores saved application state when the page loads.
+
+11. EVENT ARCHITECTURE
+
+---
+
+Increase Button
+→ countUp()
+
+Decrease Button
+→ countDown()
+
+Reset Button
+→ resetCount()
+
+Step Input
+→ handleStepInput()
+
+Theme Button
+→ toggleTheme()
+
+12. VALIDATION
+
+---
+
+The step value must be:
+
+- Numeric
+- At least 1
+
+Invalid values should not become the active step.
+
+The counter should not become negative.
+
+Preferred logic:
+
+Math.max(0, count - step)
+
+13. ACCESSIBILITY
+
+---
+
+The application should use:
+
+- Semantic HTML
+- Proper button elements
+- Proper label/input relationship
+- Keyboard-accessible controls
+- Visible focus styles
+- Descriptive button labels
+- Accessible theme button label
+
+The theme icon itself should not be the only way for users
+to understand the button's purpose.
+
+14. RESPONSIVE DESIGN
+
+---
+
+Desktop:
+
+- Centered counter container
+- Comfortable spacing
+- Large counter display
+- Side-by-side primary actions
+
+Mobile:
+
+- Responsive container width
+- Smaller counter display
+- Stacked buttons when necessary
+- Comfortable touch targets
+- No horizontal overflow
+
+15. NAMING CONVENTION
+
+---
+
+Files:
+
+lowercase-kebab-case
+
+Examples:
+
+index.html
+style.css
+script.js
+architecture.txt
+
+CSS classes:
+
+lowercase-kebab-case
+
+Examples:
+
+.counter-wrap
+.counter-actions
+.count-up
+.count-down
+.count-reset
+.dark-button
+
+JavaScript variables/functions:
+
+camelCase
+
+Examples:
+
+countDisplay
+increaseButton
+decreaseButton
+themeButton
+countUp()
+countDown()
+resetCount()
+toggleTheme()
+
+16. IIFE DECISION
+
+---
+
+An IIFE is not required for this project.
+
+Reason:
+
+The application is small and contains a limited number of
+JavaScript variables and functions.
+
+The main goal is readability and maintainability.
+
+An IIFE may be useful when:
+
+- Global namespace pollution is a concern.
+- A project has many internal variables.
+- A module-like private scope is intentionally required.
+
+For this small application, normal ES6 code is sufficient.
+
+17. REUSABLE CODE PRINCIPLE
+
+---
+
+Do not make every element generic.
+
+Create reusable classes/functions when the same behavior
+or visual pattern appears more than once.
+
+For example:
+
+.btn
+
+can be useful when multiple buttons share the same base design.
+
+Then specific variants can be added:
+
+.btn-primary
+.btn-secondary
+.btn-danger
+
+For this Counter App, avoid creating unnecessary abstractions.
+
+18. MAINTAINABILITY RULES
+
+---
+
+1. HTML controls structure.
+
+2. CSS controls appearance.
+
+3. JavaScript controls behavior.
+
+4. Theme colors should be controlled through CSS variables.
+
+5. Avoid inline styles from JavaScript.
+
+6. Avoid unnecessary functions.
+
+7. Avoid duplicate CSS rules.
+
+8. Use descriptive names.
+
+9. Keep state management simple.
+
+10. Validate user input.
+
+11. Prevent negative counter values.
+
+12. Keep localStorage responsibilities clear.
+
+13. Do not introduce frameworks for a simple counter.
+
+14. ARCHITECTURAL FORMULA
+
+---
+
+Counter App:
+
+UI
++
+State
++
+Events
++
+Logic
++
+Render
++
+Persistence
+
+Mental Model:
+
+User Action
+↓
+Event
+↓
+Logic
+↓
+State Change
+↓
+Render
+↓
+Persistence
+
+20. PROJECT SCOPE
+
+---
+
+Current features:
+
+- Increase
+- Decrease
+- Reset
+- Custom step value
+- Counter persistence
+- Step persistence
+- Dark mode
+- Theme persistence
+
+Do not add unnecessary features unless they are intentionally
+planned as a new version.
+
+21. VERSION DIRECTION
+
+---
+
+V1:
+
+Simple counter
+
++ step control
++ reset
++ theme
++ localStorage
+
+Future versions may optionally add:
+
+- Keyboard shortcuts
+- Counter history
+- Multiple counters
+- Animation
+- Statistics
+
+These should not be added to V1 unless explicitly required.
