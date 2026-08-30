@@ -133,25 +133,6 @@ theme
 
 ---
 
-Project Structure
-
-counter-app/
-│
-├── index.html
-├── README.md
-├── LICENSE
-│
-├── css/
-│   └── style.css
-│
-├── js/
-│   └── script.js
-│
-└── architecture/
-    └── architecture.txt
-
----
-
 Architecture
 
 The project follows a simple separation of responsibilities.
